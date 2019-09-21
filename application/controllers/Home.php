@@ -60,16 +60,38 @@ class Home extends CI_Controller{
     }
     
     public function friend(){
-        //載入model
-        $this->load->model('Friends_model');
 
-        $query = $this->Friends_model->friends_dbdata ()->result_array (); 
-        $data = array ('alldata' => $query);
-        $this->load->view('friends',$data); 
+        //20190906
+        // $this->load->model('Friends_model');
+        // $query = $this->Friends_model->friends_dbdata ()->result_array (); 
+        // $data = array ('alldata' => $query);
+        // $this->load->view('friends',$data); 
 
-      
+        $this->load->model('friends_model');
+        $data = array(
+            "friends" => $this->friends_model->getAllFriends()
+        );
+        $this->load->view('friends', $data); 
+
     }
 
+    public function registerform(){
+
+        $this->load->view('register'); 
+
+    }
+
+    public function register_finish(){
+
+       $data = array(
+            "member_username"=> $this->input->post('username'),
+            "member_password"=> $this->input->post('password'),
+            "member_name"=> $this->input->post('name'),
+            "member_phone"=> $this->input->post('phone'),
+       );
+       $this->db->insert('member',$data);
+       
+    }
 }
 
 ?>
